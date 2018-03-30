@@ -1,0 +1,10 @@
+.content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 5px;
+}
+
+.image {
+    cursor: pointer;
+}
