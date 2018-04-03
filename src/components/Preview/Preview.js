@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { PreviewButton } from '../Button/PreviewButton';
+import { Button } from '../Button/Button';
 
 import './Preview.css';
 
@@ -28,14 +28,29 @@ export class Preview extends Component {
 
         return (<div className='stub' style={{top}}>
                     <div className='preview'>
-                    <PreviewButton icon={'<='} onClick={this.prevImageHandler} 
-                        disabled={leftButtonDisabled}/>
+                        <Button state={{
+                            disabled: leftButtonDisabled,
+                            icon: '<=',
+                            action: {
+                                onClick: this.prevImageHandler
+                            }
+                        }}/>
                         <a href={image.src}>
                             <img src={image.src} alt={image.alt}/>
                         </a>
-                        <PreviewButton icon={'=>'} onClick={this.nextImageHandler}
-                            disabled={rightButtonDisabled}/>
-                        <PreviewButton icon={'X'} onClick={this.exitHandler}/>
+                        <Button state={{
+                            disabled: rightButtonDisabled,
+                            icon: '=>',
+                            action: {
+                                onClick: this.nextImageHandler
+                            }
+                        }}/>
+                        <Button state={{
+                            icon: 'X',
+                            action: {
+                                onClick: this.exitHandler
+                            }
+                    }}/>
                     </div>
                 </div>);
     }
