@@ -39,20 +39,20 @@ export class Content extends Component {
     }
 
     createContentElements() {
-        return this.state.content.map((e) => {
-                const { src, alt, style } = e;
+        return this.state.content.map((element) => {
+                const { id, src, alt, style } = element;
 
-                return (<img className='image' key={alt} src={src} alt={alt} 
+                return (<img className='image' key={id} src={src} alt={alt} 
                             style={style} 
-                            onClick={this.previewShowHandler}/>
+                            onClick={(e) => {this.previewShowHandler(element, e)}}/>
                         );
             }
         );
     }
 
-    previewShowHandler(e) {
+    previewShowHandler(element, e) {
         this.setState({preview: true});
-        this.previewIndex = e.target.alt;
+        this.previewIndex = this.state.content.indexOf(element);
     }
 
     previewHideHandler() {

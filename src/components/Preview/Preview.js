@@ -8,10 +8,8 @@ export class Preview extends Component {
     constructor(props) {
         super(props);
 
-        const currentImageIndex = parseInt(props.imageIndex, 10);
-
         this.state = {
-            currentImageIndex
+            currentImageIndex: props.imageIndex 
         };
 
         this.prevImageHandler = this.prevImageHandler.bind(this);
@@ -21,10 +19,11 @@ export class Preview extends Component {
 
     render() {
         const top =  window.pageYOffset + 'px';
-        const image = this.props.images[this.state.currentImageIndex];
+        const currentImageIndex = this.state.currentImageIndex;
+        const image = this.props.images[currentImageIndex];
 
-        const leftButtonDisabled = !(this.state.currentImageIndex > 0);
-        const rightButtonDisabled = !(this.state.currentImageIndex < this.props.images.length - 1);
+        const leftButtonDisabled = !(currentImageIndex > 0);
+        const rightButtonDisabled = !(currentImageIndex < this.props.images.length - 1);
 
         return (<div className='stub' style={{top}}>
                     <div className='preview'>
