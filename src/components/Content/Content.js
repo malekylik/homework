@@ -39,7 +39,7 @@ export const Content = connect(fromStateToProps)(
                         {
                             this.state.preview && 
                             (<Preview   imageIndex={this.previewIndex} 
-                                        images={this.props.images}
+                                        images={this.props.content}
                                         onHide={this.previewHideHandler} /> )
                         }
                     </div>);
@@ -59,7 +59,7 @@ export const Content = connect(fromStateToProps)(
 
         previewShowHandler(element, e) {
             this.setState({preview: true});
-            this.previewIndex = this.state.content.indexOf(element);
+            this.previewIndex = this.props.content.indexOf(element);
         }
 
         previewHideHandler() {
