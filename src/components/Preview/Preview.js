@@ -9,7 +9,7 @@ export class Preview extends Component {
         super(props);
 
         this.state = {
-            currentImageIndex: props.imageIndex 
+            currentImageIndex: props.imageIndex,
         };
 
         this.prevImageHandler = this.prevImageHandler.bind(this);
@@ -20,8 +20,8 @@ export class Preview extends Component {
     render() {
         const top =  window.pageYOffset + 'px';
         const currentImageIndex = this.state.currentImageIndex;
-        const image = this.props.images[currentImageIndex];
-
+        const { src, alt } = this.props.images[currentImageIndex];
+        
         const leftButtonDisabled = !(currentImageIndex > 0);
         const rightButtonDisabled = !(currentImageIndex < this.props.images.length - 1);
 
@@ -34,8 +34,8 @@ export class Preview extends Component {
                                 onClick: this.prevImageHandler
                             }
                         }}/>
-                        <a href={image.src}>
-                            <img src={image.src} alt={image.alt}/>
+                        <a href={src}>
+                            <img src={src} alt={alt} />   
                         </a>
                         <Button state={{
                             disabled: rightButtonDisabled,
@@ -49,7 +49,7 @@ export class Preview extends Component {
                             action: {
                                 onClick: this.exitHandler
                             }
-                    }}/>
+                        }}/>
                     </div>
                 </div>);
     }
@@ -63,11 +63,15 @@ export class Preview extends Component {
     }
 
     nextImageHandler() {
-        this.setState({currentImageIndex:this.state.currentImageIndex + 1});
+        this.setState({
+            currentImageIndex:this.state.currentImageIndex + 1
+        });
     }
 
     prevImageHandler() {
-        this.setState({currentImageIndex:this.state.currentImageIndex - 1});
+        this.setState({
+            currentImageIndex:this.state.currentImageIndex - 1
+        });
     }
 
     exitHandler() {
