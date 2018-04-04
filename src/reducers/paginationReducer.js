@@ -2,7 +2,7 @@ export function paginationReducer(pagination, action) {
 
     if (pagination === undefined) {
         return {
-            limit: 0,
+            limit: 15,
             offset: 0 
         }
     }

@@ -29,14 +29,14 @@ export const Content = connect(fromStateToProps)(
 
 
         render() {  
-        let content; 
-
-        if (document.getElementsByClassName('content')[0]) {
-            content = this.createContentElements();
-        }    
+        let content = this.createContentElements();
         
-            return (<div className='content'>
-                        <ScrollPagination> 
+            return (<div className='content' ref={(container) => {
+                    if(container) {
+                        this.props.imageInsertingHelper.setContainerSize(container);
+                    }
+                }}>
+                        <ScrollPagination containerSize={this.props.imageInsertingHelper.containerSize}> 
                             {content}
                         </ScrollPagination>
                         {
@@ -80,6 +80,7 @@ export const Content = connect(fromStateToProps)(
         resizeHandle() {
             if (!this.resizing) {
                 this.resizing = true;
+                this.props.imageInsertingHelper.setContainerSize(document.getElementsByClassName('content')[0]);
 
                 this.props.dispatch(
                     {

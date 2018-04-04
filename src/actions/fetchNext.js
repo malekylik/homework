@@ -22,13 +22,13 @@ export function fetchNext(pagination) {
                 .join('&');
 
             let response = await fetch(`${apiUrl}?${params}&api_key=${apiKey}`);
-            console.log(`${apiUrl}?${params}&api_key=${apiKey}`);
+            // console.log(`${apiUrl}?${params}&api_key=${apiKey}`);
             let json = await response.json();
             console.log(json);
 
 
-            dispatch(appendContent(json.data));
             dispatch(updatePagination(json.pagination.count, json.pagination.offset));
+            dispatch(appendContent(json.data));
 
             // dispatch({
             //     type: 'FEED_APPEND_CARDS',

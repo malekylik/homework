@@ -1,8 +1,8 @@
 .content {
+    padding: 5px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    padding: 5px;
 }
 
 .image {
