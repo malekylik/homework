@@ -3,6 +3,7 @@ import { Preview } from '../Preview/Preview';
 import { connect } from 'react-redux'
 
 import './Content.css';
+import { ScrollPagination } from '../ScrollPagination/ScrollPagination';
 
 function fromStateToProps({ content }) {
     return {
@@ -35,7 +36,9 @@ export const Content = connect(fromStateToProps)(
         }    
         
             return (<div className='content'>
-                        {content}
+                        <ScrollPagination> 
+                            {content}
+                        </ScrollPagination>
                         {
                             this.state.preview && 
                             (<Preview   imageIndex={this.previewIndex} 
@@ -68,12 +71,6 @@ export const Content = connect(fromStateToProps)(
 
         componentDidMount() {
             window.addEventListener('resize', this.resizeHandle);
-
-            this.props.dispatch(
-                {
-                    type: 'RECALCULATE_CONTENT'
-                }
-            );
         }
 
         componentWillUnmount() {
