@@ -1,10 +1,5 @@
 import { appendContent } from '../actions/content';
-import { nextPagination } from '../actions/pagination';
-
-// const apiKey = '3KhaEU7c2d6T0Pj00QVJJiBFdUHlTMjx';
-// const apiUrl = 'http://api.giphy.com/v1/gifs/trending';
-
-
+import { updatePagination } from '../actions/pagination';
 
 export function fetchNext(pagination) {
     return async function (dispatch, getState) {
@@ -16,17 +11,17 @@ export function fetchNext(pagination) {
         try {
             // Loading
 
-            let params = Object.keys(pagination)
-                .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(pagination[key])}`)
-                .join('&');
-
-            let response = await fetch(`/api/recent/?limit=10&format=json`, {credentials: 'same-origin'});
+            let response = await fetch(`/api/recent/${pagination.next}?limit=${pagination.limit}&format=json`, {credentials: 'same-origin'});
             console.log(response);
             let json = await response.json();
+            const next = (json.links.next && json.links.next.match(/updated.+\//)[0]) || '';
+            const isNext = !!next;
+            
+            console.log(next);
             console.log(json);
 
 
-            dispatch(nextPagination(json.links.next));
+            dispatch(updatePagination({next, isNext}));
             dispatch(appendContent(json.entries));
 
             // dispatch({
@@ -36,6 +31,7 @@ export function fetchNext(pagination) {
             // });
         } catch (error) {
             console.log(error);
+            return;
             // dispatch({
             //     type: 'FEED_ERROR',
             //     error

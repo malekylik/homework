@@ -3,9 +3,10 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    min-height: calc(100vh + 1px);
 }
 
 .image {
     cursor: pointer;
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.8);
 }

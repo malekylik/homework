@@ -18,7 +18,8 @@ export class Preview extends Component {
     }
 
     render() {
-        const top =  window.pageYOffset + 'px';
+        // const top =  window.pageYOffset + 'px';
+        const top =  (document.body.scrollTop || document.documentElement.scrollTop) + 'px';
         const currentImageIndex = this.state.currentImageIndex;
         const { original: { src }, alt } = this.props.images[currentImageIndex];
         
@@ -52,10 +53,6 @@ export class Preview extends Component {
                         }}/>
                     </div>
                 </div>);
-    }
-
-    componentDidMount() {
-        document.documentElement.style.overflow = 'hidden';
     }
 
     componentWillUnmount() {

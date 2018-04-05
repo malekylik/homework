@@ -27,7 +27,7 @@ export const ScrollPagination = connect(fromStateToProps)(
         }
 
         scrollHandler() {
-            if (this.state.loading) {
+            if (this.state.loading || !this.props.pagination.isNext) {
                 return;
             }
     
@@ -36,7 +36,7 @@ export const ScrollPagination = connect(fromStateToProps)(
                 windowHeight = window.innerHeight;
     
             if (scrollTop + windowHeight >= containerHeight - windowHeight * 0.6) {
-                // this.fetch();                
+                this.fetch();                
             }
 
         }
@@ -51,7 +51,7 @@ export const ScrollPagination = connect(fromStateToProps)(
             try{
                 await this.props.dispatch(fetchNext(this.props.pagination));
             } catch(Error) {
-
+                
             } finally { 
                 this.setState({
                     loading: false
@@ -69,7 +69,7 @@ export const ScrollPagination = connect(fromStateToProps)(
             return (
                 <React.Fragment>
                     {this.props.children || null}
-                    {this.state.loading && <Spinner />}
+                    {this.props.pagination.isNext && <Spinner />}
                 </React.Fragment>
             );
         }

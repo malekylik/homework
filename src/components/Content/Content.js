@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import './Content.css';
 import { ScrollPagination } from '../ScrollPagination/ScrollPagination';
-import { updateLimit } from '../../actions/pagination';
+import { updatePagination } from '../../actions/pagination';
 
 function fromStateToProps({ content }) {
     return {
@@ -27,7 +27,7 @@ export const Content = connect(fromStateToProps)(
             this.previewHideHandler = this.previewHideHandler.bind(this);
             this.resizeHandle = this.resizeHandle.bind(this);
 
-            this.props.dispatch(updateLimit(this.props.imageInsertingHelper.calculatePaginationLimit()));
+            this.props.dispatch(updatePagination({limit: this.props.imageInsertingHelper.calculatePaginationLimit()}));
         }
 
 
@@ -64,6 +64,7 @@ export const Content = connect(fromStateToProps)(
         }
 
         previewShowHandler(element, e) {
+            document.documentElement.style.overflow = 'hidden';
             this.setState({preview: true});
             this.previewIndex = this.props.content.indexOf(element);
         }
@@ -86,12 +87,8 @@ export const Content = connect(fromStateToProps)(
                 this.props.imageInsertingHelper.calculatePaginationLimit();
                 this.props.imageInsertingHelper.setContainerSize(document.getElementsByClassName('content')[0]);
 
-                this.props.dispatch(updateLimit(this.props.imageInsertingHelper.calculatePaginationLimit()));
-                this.props.dispatch(
-                    {
-                        type: 'RECALCULATE_CONTENT'
-                    }
-                );
+                this.props.dispatch(updatePagination({limit: this.props.imageInsertingHelper.calculatePaginationLimit()}));
+                this.props.dispatch({type: 'RECALCULATE_CONTENT'});
 
                 this.resizing = false;
             }

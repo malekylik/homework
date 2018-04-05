@@ -4,9 +4,8 @@
             this.rowHeight = rowHeight;
             this.trackWidth = trackWidth;
             this.rowCount = 0;
+            this.forContentFitting = 3;
             this.containerSize = {};
-
-            this.scrollBarWidth = 16;
         }
 
         calculatePaginationLimit() {
@@ -40,8 +39,6 @@
             let layout = [];
             const windowWidth = this.containerSize.width;
 
-            let scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
-
             while (layout.length < imgs.length) {
 
                 let { row, rowWidthCalc }  = this.calculateRow(imgs, layout, windowWidth);
@@ -72,7 +69,7 @@
         }
 
         calculateRow(imgs, layout, windowWidth) {
-            const row = [];
+            let row = [];
             let rowWidthCalc = 0;
 
             for (let i = layout.length; i < imgs.length; i++) {
@@ -89,7 +86,7 @@
         }
 
         calculateRowWithTrack(row, rowWidthCalc, windowWidth) {
-            while (windowWidth - (this.trackWidth * (row.length + 1) + this.scrollBarWidth)
+            while (windowWidth - (this.trackWidth * (row.length + 1) + this.forContentFitting)
             < rowWidthCalc) {
                 const last = row.pop();
                 rowWidthCalc -= last.miniature.size.width;
@@ -103,7 +100,7 @@
 
         calculateImgStyle(row, rowWidthCalc, windowWidth) {
             const resizeCof = (windowWidth - this.trackWidth * (row.length - 1) 
-            - this.scrollBarWidth)  / rowWidthCalc;
+            - this.forContentFitting)  / rowWidthCalc;
             const resizeHeight = Math.floor(this.rowHeight * resizeCof);
 
             for (let i = 0; i < row.length; i++) {
@@ -129,13 +126,20 @@
         }
 
         setContainerSize(container) {
-            this.containerSize.width = parseInt(
+            const width = parseInt(
                 getComputedStyle(container).width, 
-                10);
-
-            this.containerSize.height = parseInt(
+                10),
+                height = parseInt(
                 getComputedStyle(container).height, 
                 10);
+
+            if (width !== 0) {
+                this.containerSize.width = width;
+            }
+
+            if (height !== 0) {
+                this.containerSize.height = height;
+            }
         }
     }
     

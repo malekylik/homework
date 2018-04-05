@@ -1,15 +1,6 @@
-export function updateLimit(limit) {
+export function updatePagination(pagination) {
     return {
-        type: 'UPDATE_LIMIT',
-        pagination: {
-            limit,
-        }
-    };
-}
-
-export function nextPagination(next) {
-    return {
-        type: 'NEXT_PAGINATION',
-        pagination: next
+        type: 'UPDATE_PAGINATION',
+        pagination
     };
 }
