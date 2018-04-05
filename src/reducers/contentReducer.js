@@ -1,24 +1,51 @@
 import { imageInsertingHelper } from '../index';
 
 function nextContentHelper(nextContent) {
-    return nextContent.map((e,i,a) => {
-        const { id, title: alt, images: { original: { url: src, width: naturalWidth, height: naturalHeight } } } = e;         
-        const { ratioWidth, ratioHeight } = imageInsertingHelper.calculateRatio({
-            naturalWidth,
-            naturalHeight
+    return nextContent.map((e) => {
+        const { id, title: alt , img } = e; 
+        let orig = {
+            width: -1
+        },
+        miniature = {
+            height: Number.POSITIVE_INFINITY
+        };
+
+        const rowHeight = imageInsertingHelper.rowHeight;
+
+        Object.keys(img).forEach((key) => {
+            if (Math.abs(rowHeight - img[key].height) <  Math.abs(rowHeight - miniature.height)) {
+                miniature = img[key];
+            }
+
+            if (img[key].width > orig.width) {
+                orig = img[key];
+            }
         });
+
+        const { href: naturalSrc, width: naturalWidth, height: naturalHeight } = orig;
+        let { href: ratioSrc, width: ratioWidth, height: ratioHeight } = miniature;
+        
+        ({ ratioWidth, ratioHeight } = imageInsertingHelper.calculateRatio({
+            ratioWidth,
+            ratioHeight
+        }));
         
         return {
             id,
-            src,
             alt,
-            ratioSize: {
-                width: ratioWidth,
-                height: ratioHeight
+            miniature: {
+                src: ratioSrc,
+                size: {
+                    width: ratioWidth,
+                    height: ratioHeight
+                }
             },
-            originalSize: {
-                width: naturalWidth,
-                height: naturalHeight
+            original: {
+                src: naturalSrc,
+                size: {
+                    width: naturalWidth,
+                    height: naturalHeight
+                }
             }
         };
     }

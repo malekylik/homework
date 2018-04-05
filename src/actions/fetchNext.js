@@ -1,9 +1,8 @@
 import { appendContent } from '../actions/content';
-import { updatePagination } from '../actions/pagination';
+import { nextPagination } from '../actions/pagination';
 
-const apiKey = '3KhaEU7c2d6T0Pj00QVJJiBFdUHlTMjx';
-const apiUrl = 'http://api.giphy.com/v1/gifs/trending';
-// const apiUrl = '/recent/?limit=10&format=json';
+// const apiKey = '3KhaEU7c2d6T0Pj00QVJJiBFdUHlTMjx';
+// const apiUrl = 'http://api.giphy.com/v1/gifs/trending';
 
 
 
@@ -21,14 +20,14 @@ export function fetchNext(pagination) {
                 .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(pagination[key])}`)
                 .join('&');
 
-            let response = await fetch(`${apiUrl}?${params}&api_key=${apiKey}`);
-            // console.log(`${apiUrl}?${params}&api_key=${apiKey}`);
+            let response = await fetch(`/api/recent/?limit=10&format=json`, {credentials: 'same-origin'});
+            console.log(response);
             let json = await response.json();
             console.log(json);
 
 
-            dispatch(updatePagination(json.pagination.count, json.pagination.offset));
-            dispatch(appendContent(json.data));
+            dispatch(nextPagination(json.links.next));
+            dispatch(appendContent(json.entries));
 
             // dispatch({
             //     type: 'FEED_APPEND_CARDS',

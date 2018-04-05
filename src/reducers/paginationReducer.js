@@ -7,7 +7,14 @@ export function paginationReducer(pagination, action) {
         }
     }
 
-    if (action.type === 'UPDATE_PAGINATION') {
+    if (action.type === 'UPDATE_LIMIT') {
+        return {
+            ...pagination,
+             ...action.pagination
+        }
+    }
+    
+    if (action.type === 'NEXT_PAGINATION') {
         return {
             offset: action.pagination.offset + action.pagination.limit,
             limit: action.pagination.limit

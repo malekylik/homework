@@ -10,14 +10,25 @@
         }
 
         calculatePaginationLimit() {
+            this.rowCount = 0;
 
+            const { innerWidth, innerHeight } = window;
+
+            const rowImgsFit = Math.floor(innerWidth / this.rowHeight);
+            const rowsFit = Math.floor(innerHeight / this.rowHeight);
+
+            this.limit = (rowsFit + 1) * rowImgsFit;
+
+            return this.limit;
         }
 
-        calculateRatio({naturalWidth, naturalHeight}) {
-            const wRation = naturalWidth / naturalHeight;
+        calculateRatio({ratioWidth, ratioHeight}) {
+            if (ratioHeight !== this.rowHeight) {
+                const wRatio = ratioWidth / ratioHeight;
 
-            const ratioHeight = this.rowHeight;
-            const ratioWidth = Math.floor(ratioHeight * wRation);
+                ratioHeight = this.rowHeight;
+                ratioWidth = Math.floor(ratioHeight * wRatio);
+            }
 
             return {
                 ratioWidth,
@@ -51,7 +62,7 @@
                 const img = imgs[layout.length];
 
                 row.push(img);
-                rowWidthCalc = img.ratioSize.width;
+                rowWidthCalc = img.miniature.size.width;
             }
 
             return {
@@ -65,7 +76,7 @@
             let rowWidthCalc = 0;
 
             for (let i = layout.length; i < imgs.length; i++) {
-                const width = imgs[i].ratioSize.width;
+                const width = imgs[i].miniature.size.width;
                 if (rowWidthCalc + width < windowWidth) {
                     rowWidthCalc += width;
                     row.push(imgs[i]);
@@ -81,7 +92,7 @@
             while (windowWidth - (this.trackWidth * (row.length + 1) + this.scrollBarWidth)
             < rowWidthCalc) {
                 const last = row.pop();
-                rowWidthCalc -= last.ratioSize.width;
+                rowWidthCalc -= last.miniature.size.width;
             }
 
             return {
@@ -96,7 +107,7 @@
             const resizeHeight = Math.floor(this.rowHeight * resizeCof);
 
             for (let i = 0; i < row.length; i++) {
-                const width = Math.round(row[i].ratioSize.width * resizeCof);
+                const width = Math.round(row[i].miniature.size.width * resizeCof);
                 const height = resizeHeight;
                 const style = {
                     width,

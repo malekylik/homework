@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 
 import './Content.css';
 import { ScrollPagination } from '../ScrollPagination/ScrollPagination';
+import { updateLimit } from '../../actions/pagination';
 
 function fromStateToProps({ content }) {
     return {
@@ -25,6 +26,8 @@ export const Content = connect(fromStateToProps)(
             this.previewShowHandler = this.previewShowHandler.bind(this);
             this.previewHideHandler = this.previewHideHandler.bind(this);
             this.resizeHandle = this.resizeHandle.bind(this);
+
+            this.props.dispatch(updateLimit(this.props.imageInsertingHelper.calculatePaginationLimit()));
         }
 
 
@@ -50,7 +53,7 @@ export const Content = connect(fromStateToProps)(
 
         createContentElements() {
             return this.props.content.map((element) => {
-                    const { id, src, alt, style } = element;
+                    const { id, miniature: { src }, alt, style } = element;
 
                     return (<img className='image' key={id} src={src} alt={alt} 
                                 style={style} 
@@ -80,8 +83,10 @@ export const Content = connect(fromStateToProps)(
         resizeHandle() {
             if (!this.resizing) {
                 this.resizing = true;
+                this.props.imageInsertingHelper.calculatePaginationLimit();
                 this.props.imageInsertingHelper.setContainerSize(document.getElementsByClassName('content')[0]);
 
+                this.props.dispatch(updateLimit(this.props.imageInsertingHelper.calculatePaginationLimit()));
                 this.props.dispatch(
                     {
                         type: 'RECALCULATE_CONTENT'

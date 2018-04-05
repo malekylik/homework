@@ -20,7 +20,7 @@ export class Preview extends Component {
     render() {
         const top =  window.pageYOffset + 'px';
         const currentImageIndex = this.state.currentImageIndex;
-        const { src, alt } = this.props.images[currentImageIndex];
+        const { original: { src }, alt } = this.props.images[currentImageIndex];
         
         const leftButtonDisabled = !(currentImageIndex > 0);
         const rightButtonDisabled = !(currentImageIndex < this.props.images.length - 1);

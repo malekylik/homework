@@ -19,14 +19,14 @@ export const ScrollPagination = connect(fromStateToProps)(
                 loading: true
             }
     
-            this.onScroll = this.onScroll.bind(this);
+            this.scrollHandler = this.scrollHandler.bind(this);
         }
     
         componentWillUnmount() {
-            document.removeEventListener('scroll', this.onScroll);
+            document.removeEventListener('scroll', this.scrollHandler);
         }
 
-        onScroll() {
+        scrollHandler() {
             if (this.state.loading) {
                 return;
             }
@@ -36,7 +36,7 @@ export const ScrollPagination = connect(fromStateToProps)(
                 windowHeight = window.innerHeight;
     
             if (scrollTop + windowHeight >= containerHeight - windowHeight * 0.6) {
-                this.fetch();                
+                // this.fetch();                
             }
 
         }
@@ -60,7 +60,7 @@ export const ScrollPagination = connect(fromStateToProps)(
         }
 
         componentDidMount() {
-            document.addEventListener('scroll', this.onScroll, {passive: true});
+            document.addEventListener('scroll', this.scrollHandler, {passive: true});
             
             this.fetch();  
         }
