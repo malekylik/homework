@@ -38,20 +38,24 @@
         calculateRows(imgs) {
             let layout = [];
             const windowWidth = this.containerSize.width;
+            let con = false;
 
             while (layout.length < imgs.length) {
-
                 let { row, rowWidthCalc }  = this.calculateRow(imgs, layout, windowWidth);
 
                 ({ row, rowWidthCalc } = this.checkForEmptyRow(row, layout, imgs, rowWidthCalc));
 
-                this.calculateImgStyle(row, rowWidthCalc, windowWidth);
+                con = this.calculateImgStyle(row, rowWidthCalc, windowWidth, imgs.length - layout.length);
 
                 layout = [...layout, ...row];
                 this.rowCount++;
             };
             
-            return layout;          
+            if (con === true) {
+                layout.pop();
+            } 
+            
+            return layout;    
         }
 
         checkForEmptyRow(row, layout, imgs, rowWidthCalc) {
@@ -98,9 +102,14 @@
             };
         }
 
-        calculateImgStyle(row, rowWidthCalc, windowWidth) {
-            const resizeCof = (windowWidth - this.trackWidth * (row.length - 1) 
+        calculateImgStyle(row, rowWidthCalc, windowWidth, countOfrest) {
+            let resizeCof = (windowWidth - this.trackWidth * (row.length - 1) 
             - this.forContentFitting)  / rowWidthCalc;
+
+            if (resizeCof > 2 && countOfrest === 1) {
+                return true;
+            }
+
             const resizeHeight = Math.floor(this.rowHeight * resizeCof);
 
             for (let i = 0; i < row.length; i++) {

@@ -1,6 +1,8 @@
 import { appendContent } from '../actions/content';
 import { updatePagination } from '../actions/pagination';
 
+let count = 0;
+
 export function fetchNext(pagination) {
     return async function (dispatch, getState) {
         // dispatch({
@@ -20,9 +22,17 @@ export function fetchNext(pagination) {
             console.log(next);
             console.log(json);
 
+            count += json.entries.length;
+
+            console.log('count: ' + count);
+
 
             dispatch(updatePagination({next, isNext}));
             dispatch(appendContent(json.entries));
+
+            return isNext;
+
+
 
             // dispatch({
             //     type: 'FEED_APPEND_CARDS',
@@ -42,6 +52,5 @@ export function fetchNext(pagination) {
             //     loading: false
             // });
         }
-
     };
 }

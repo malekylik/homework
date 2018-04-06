@@ -25,6 +25,7 @@
 .infinite__spinner {
   text-align: center;
   padding: 48px;
+  margin: auto;
 }
 
 @keyframes spinner {

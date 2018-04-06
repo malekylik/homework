@@ -1,22 +1,14 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
 
-import { fetchNext } from '../../actions/fetchNext';
 import Spinner from '../Spinner/Spinner';
 
-function fromStateToProps({ pagination }){
-    return {
-        pagination
-    };
-}
-
-export const ScrollPagination = connect(fromStateToProps)(
-    class ScrollPagination extends Component {
+export class ScrollPagination extends Component {
         constructor(props) {
             super(props);
 
             this.state = {
-                loading: true
+                loading: true,
+                isNext: true
             }
     
             this.scrollHandler = this.scrollHandler.bind(this);
@@ -27,7 +19,7 @@ export const ScrollPagination = connect(fromStateToProps)(
         }
 
         scrollHandler() {
-            if (this.state.loading || !this.props.pagination.isNext) {
+            if (this.state.loading || !this.state.isNext) {
                 return;
             }
     
@@ -47,14 +39,16 @@ export const ScrollPagination = connect(fromStateToProps)(
                     loading: true
                 });
             }
+            let isNext = false;
 
             try{
-                await this.props.dispatch(fetchNext(this.props.pagination));
+                isNext = await this.props.fetchNext();
             } catch(Error) {
                 
             } finally { 
                 this.setState({
-                    loading: false
+                    loading: false,
+                    isNext
                 });
             }
         }
@@ -69,10 +63,8 @@ export const ScrollPagination = connect(fromStateToProps)(
             return (
                 <React.Fragment>
                     {this.props.children || null}
-                    {this.props.pagination.isNext && <Spinner />}
+                    {this.state.isNext && <Spinner />}
                 </React.Fragment>
             );
         }
     }
-    
-);

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+
 import { Button } from '../Button/Button';
+import Spinner from '../Spinner/Spinner';
 
 import './Preview.css';
 
@@ -10,18 +12,20 @@ export class Preview extends Component {
 
         this.state = {
             currentImageIndex: props.imageIndex,
+            loading: true
         };
 
         this.prevImageHandler = this.prevImageHandler.bind(this);
         this.nextImageHandler = this.nextImageHandler.bind(this);
         this.exitHandler = this.exitHandler.bind(this);
+        this.loadHandler = this.loadHandler.bind(this);
     }
 
     render() {
-        // const top =  window.pageYOffset + 'px';
         const top =  (document.body.scrollTop || document.documentElement.scrollTop) + 'px';
         const currentImageIndex = this.state.currentImageIndex;
-        const { original: { src }, alt } = this.props.images[currentImageIndex];
+        const { id, original: { src: originalSrc }, alt, preview: { src: previewSrc} } = this.props.images[currentImageIndex];
+
         
         const leftButtonDisabled = !(currentImageIndex > 0);
         const rightButtonDisabled = !(currentImageIndex < this.props.images.length - 1);
@@ -35,8 +39,11 @@ export class Preview extends Component {
                                 onClick: this.prevImageHandler
                             }
                         }}/>
-                        <a href={src}>
-                            <img src={src} alt={alt} />   
+                        <a href={originalSrc}>                      
+                            <img onLoad={this.loadHandler} 
+                                 style={{display: this.state.loading ? 'none' : 'block'}} 
+                                 key={id} src={previewSrc} alt={alt} /> 
+                            {this.state.loading && <Spinner />} 
                         </a>
                         <Button state={{
                             disabled: rightButtonDisabled,
@@ -61,14 +68,20 @@ export class Preview extends Component {
 
     nextImageHandler() {
         this.setState({
-            currentImageIndex:this.state.currentImageIndex + 1
-        });
+            currentImageIndex:this.state.currentImageIndex + 1,
+            loading: true
+        });        
     }
 
     prevImageHandler() {
         this.setState({
-            currentImageIndex:this.state.currentImageIndex - 1
+            currentImageIndex:this.state.currentImageIndex - 1,
+            loading: true
         });
+    }
+
+    loadHandler() {
+        this.setState({loading: false});
     }
 
     exitHandler() {

@@ -88,6 +88,7 @@
   
   .preview .disabled-button:hover {
     color: rgba(0,0,0,0.7);
+    cursor: default;
   }
 
   @media screen and (min-width: 505px) {
