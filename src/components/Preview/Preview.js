@@ -15,6 +15,10 @@ export class Preview extends Component {
             loading: true
         };
 
+        this.leftButtonIcon = (<i className="fas fa-angle-left"></i>);
+        this.rightButtonIcon = (<i className="fas fa-angle-right"></i>);
+        this.exitButtonIcon = (<i className="fas fa-times"></i>);
+
         this.prevImageHandler = this.prevImageHandler.bind(this);
         this.nextImageHandler = this.nextImageHandler.bind(this);
         this.exitHandler = this.exitHandler.bind(this);
@@ -34,7 +38,7 @@ export class Preview extends Component {
                     <div className='preview'>
                         <Button state={{
                             disabled: leftButtonDisabled,
-                            icon: '<=',
+                            icon: this.leftButtonIcon,
                             action: {
                                 onClick: this.prevImageHandler
                             }
@@ -47,13 +51,13 @@ export class Preview extends Component {
                         </a>
                         <Button state={{
                             disabled: rightButtonDisabled,
-                            icon: '=>',
+                            icon: this.rightButtonIcon,
                             action: {
                                 onClick: this.nextImageHandler
                             }
                         }}/>
                         <Button state={{
-                            icon: 'X',
+                            icon: this.exitButtonIcon,
                             action: {
                                 onClick: this.exitHandler
                             }
