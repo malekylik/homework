@@ -22,7 +22,7 @@ export class Preview extends Component {
     }
 
     render() {
-        const top =  (document.body.scrollTop || document.documentElement.scrollTop) + 'px';
+        const top =  document.documentElement.scrollTop;
         const currentImageIndex = this.state.currentImageIndex;
         const { id, original: { src: originalSrc }, alt, preview: { src: previewSrc} } = this.props.images[currentImageIndex];
 
@@ -63,7 +63,7 @@ export class Preview extends Component {
     }
 
     componentWillUnmount() {
-        document.documentElement.style.overflow = 'visible';
+        document.body.style.overflow = 'visible';
     }
 
     nextImageHandler() {

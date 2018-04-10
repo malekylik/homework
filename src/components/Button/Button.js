@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function Button(props){
+export function Button(props) {
     const { disabled, icon, action: { onClick } } = props.state;
     
     return (

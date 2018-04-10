@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 
 import Spinner from '../Spinner/Spinner';
+import Message from '../Message/Message';
+
+import { CONTENT_IS_END, LOAD_ERROR } from '../../messages';
 
 export class ScrollPagination extends Component {
         constructor(props) {
@@ -12,6 +15,7 @@ export class ScrollPagination extends Component {
             }
     
             this.scrollHandler = this.scrollHandler.bind(this);
+            this.fetch = this.fetch.bind(this);
         }
     
         componentWillUnmount() {
@@ -19,7 +23,7 @@ export class ScrollPagination extends Component {
         }
 
         scrollHandler() {
-            if (this.state.loading || !this.state.isNext) {
+            if (this.state.loading || !this.state.isNext || this.props.error) {
                 return;
             }
     
@@ -60,10 +64,22 @@ export class ScrollPagination extends Component {
         }
 
         render() {
+            if (this.props.children.length === 0) {
+                window.scrollTo(0, 0);
+            }
+
+            let temp = null;
+
+            if (this.props.error) {
+                temp = (<Message onClick={this.fetch} text={LOAD_ERROR} />);
+            } else {
+                temp = (this.state.isNext ? <Spinner /> : <Message text={CONTENT_IS_END} />);
+            }
+
             return (
                 <React.Fragment>
                     {this.props.children || null}
-                    {this.state.isNext && <Spinner />}
+                    {temp}
                 </React.Fragment>
             );
         }

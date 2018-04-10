@@ -71,24 +71,26 @@ function nextContentHelper(nextContent) {
 export function contentReducer(content, action) {
     if (content === undefined) {
         return {
+            notShowed: [],
             images: [],
-            notShowed: []
         }
     }
 
     if (action.type === 'RECALCULATE_CONTENT') {
+        const nextContent = [...content.images, ...content.notShowed];
+        const images = imageInsertingHelper.calculateRows(nextContent, 0);
         return {
-            ...content,
-            images: imageInsertingHelper.calculateRows(content.images)
+            notShowed: [...nextContent.slice(images.length)],
+            images: images
         }
     }
 
     if (action.type === 'APPEND_CONTENT') {
-        const nextContent = nextContentHelper(action.nextContent);
-        const images = imageInsertingHelper.calculateRows([...content.notShowed, ...nextContent]);
+        const nextContent = [...content.notShowed, ...nextContentHelper(action.nextContent)];
+        const images = imageInsertingHelper.calculateRows(nextContent, content.images.length);
         return {
+            notShowed: [...nextContent.slice(images.length)],
             images: [...(content.images), ...images],
-            notShowed: [...nextContent.slice(images.length)]
         }
     }
 

@@ -1,0 +1,41 @@
+.Message {
+    display: flex;
+    width: 100%;
+    min-height: 80px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+
+.Message__Content {
+    margin: auto;
+    width: 45%;
+    min-height: 50%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1.5rem;
+    background-color: #eee;
+    text-shadow: 0 1px #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    user-select: none;
+}
+
+.Message__Content:hover {
+    cursor: pointer;
+}
+
+.Message__Content:active {
+    background-color: #ccc;
+}
+
+@media screen and (min-width: 505px) {
+  
+    .Message__Content  {
+        font-size: 0.5rem;
+    }
+      
+  }

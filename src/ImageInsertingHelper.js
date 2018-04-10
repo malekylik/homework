@@ -1,10 +1,10 @@
 
     export class ImageInsertingHelper {
-        constructor(rowHeight, trackWidth) {
+        constructor(rowHeight, gap) {
             this.rowHeight = rowHeight;
-            this.trackWidth = trackWidth;
+            this.gap = gap;
             this.rowCount = 0;
-            this.forContentFitting = 3;
+            this.fotContentFitting = 3;
             this.containerSize = {};
         }
 
@@ -35,20 +35,30 @@
             };
         }
 
-        calculateRows(imgs) {
-            let layout = [];
+        calculateRows(imgs, imgCount) {
             const windowWidth = this.containerSize.width;
-            let con = false;
 
+            let layout = [];
+            let con = false; 
+            let averageRowElements;
+            
             while (layout.length < imgs.length) {
                 let { row, rowWidthCalc }  = this.calculateRow(imgs, layout, windowWidth);
 
                 ({ row, rowWidthCalc } = this.checkForEmptyRow(row, layout, imgs, rowWidthCalc));
 
-                con = this.calculateImgStyle(row, rowWidthCalc, windowWidth, imgs.length - layout.length);
+                averageRowElements = Math.floor(imgCount / this.rowCount);
+
+                this.calculateImgStyle(row, rowWidthCalc, windowWidth, imgs.length - layout.length);
+
+                if (imgs.length - layout.length === row.length && row.length < averageRowElements) {
+                    break;
+                }
 
                 layout = [...layout, ...row];
+
                 this.rowCount++;
+                imgCount += row.length;
             };
             
             if (con === true) {
@@ -90,7 +100,7 @@
         }
 
         calculateRowWithTrack(row, rowWidthCalc, windowWidth) {
-            while (windowWidth - (this.trackWidth * (row.length + 1) + this.forContentFitting)
+            while (windowWidth - (this.gap * (row.length + 1) + this.fotContentFitting)
             < rowWidthCalc) {
                 const last = row.pop();
                 rowWidthCalc -= last.miniature.size.width;
@@ -102,13 +112,9 @@
             };
         }
 
-        calculateImgStyle(row, rowWidthCalc, windowWidth, countOfrest) {
-            let resizeCof = (windowWidth - this.trackWidth * (row.length - 1) 
-            - this.forContentFitting)  / rowWidthCalc;
-
-            if (resizeCof > 2 && countOfrest === 1) {
-                return true;
-            }
+        calculateImgStyle(row, rowWidthCalc, windowWidth) {
+            let resizeCof = (windowWidth - this.gap * (row.length - 1) 
+            - this.fotContentFitting)  / rowWidthCalc;
 
             const resizeHeight = Math.floor(this.rowHeight * resizeCof);
 
@@ -118,8 +124,8 @@
                 const style = {
                     width,
                     height,
-                    marginTop: this.trackWidth,
-                    marginRight: this.trackWidth
+                    marginTop: this.gap,
+                    marginRight: this.gap
                 };
                 
                 if (i === row.length - 1) {

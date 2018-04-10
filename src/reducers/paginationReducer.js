@@ -4,7 +4,7 @@ export function paginationReducer(pagination, action) {
         return {
             limit: 15,
             next: '',
-            isNext: true 
+            error: false
         }
     }
 
@@ -12,6 +12,13 @@ export function paginationReducer(pagination, action) {
         return {
             ...pagination,
             ...action.pagination,
+        }
+    }
+
+    if (action.type === 'LOAD_ERROR') {
+        return {
+            ...pagination,
+            error: action.error
         }
     }
     

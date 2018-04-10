@@ -13,11 +13,17 @@ export function fetchNext(pagination) {
         try {
             // Loading
 
+            if (pagination.error) {
+                dispatch({
+                    type: 'LOAD_ERROR',
+                    error: false
+                });
+            }
+
             let response = await fetch(`/api/recent/${pagination.next}?limit=${pagination.limit}&format=json`, {credentials: 'same-origin'});
             console.log(response);
             let json = await response.json();
             const next = (json.links.next && json.links.next.match(/updated.+\//)[0]) || '';
-            const isNext = !!next;
             
             console.log(next);
             console.log(json);
@@ -27,30 +33,17 @@ export function fetchNext(pagination) {
             console.log('count: ' + count);
 
 
-            dispatch(updatePagination({next, isNext}));
+            dispatch(updatePagination({next}));
             dispatch(appendContent(json.entries));
 
-            return isNext;
-
-
-
-            // dispatch({
-            //     type: 'FEED_APPEND_CARDS',
-            //     cards: json.results,
-            //     next: json.next
-            // });
+            return !!next;
         } catch (error) {
-            console.log(error);
-            return;
-            // dispatch({
-            //     type: 'FEED_ERROR',
-            //     error
-            // });
-        } finally {
-            // dispatch({
-            //     type: 'FEED_LOADING',
-            //     loading: false
-            // });
-        }
+            dispatch({
+                type: 'LOAD_ERROR',
+                error: true
+            });
+            
+            return pagination.next;
+        } 
     };
 }

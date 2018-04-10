@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { Preview } from '../Preview/Preview';
 import { connect } from 'react-redux'
 
 import './Content.css';
+
+import { Preview } from '../Preview/Preview';
 import { ScrollPagination } from '../ScrollPagination/ScrollPagination';
+
 import { updatePagination } from '../../actions/pagination';
 import { fetchNext } from '../../actions/fetchNext';
+
 
 function fromStateToProps({ content, pagination }) {
     return {
@@ -37,43 +40,38 @@ export const Content = connect(fromStateToProps)(
         render() {  
         let content = this.createContentElements();
         
-            return (<div className='content' ref={(container) => {
-                    if(container) {
-                        this.props.imageInsertingHelper.setContainerSize(container);
-                    }
-                }}>
-                        <ScrollPagination fetchNext={this.fetch} containerSize={this.props.imageInsertingHelper.containerSize}> 
-                            {content}
-                        </ScrollPagination>
-                        {
-                            this.state.preview && 
-                            (<Preview   imageIndex={this.previewIndex} 
-                                        images={this.props.content.images}
-                                        onHide={this.previewHideHandler} /> )
-                        }
-                    </div>);
+            return (
+                    <div className='content' ref={(container) => {
+                            if(container) {
+                                this.props.imageInsertingHelper.setContainerSize(container);
+                            }
+                        }}>
+                                <ScrollPagination 
+                                        fetchNext={this.fetch} 
+                                        containerSize={this.props.imageInsertingHelper.containerSize}
+                                        error={this.props.pagination.error}> 
+                                    {content}
+                                </ScrollPagination>
+                                {
+                                    this.state.preview && 
+                                    (<Preview   imageIndex={this.previewIndex} 
+                                                images={this.props.content.images}
+                                                onHide={this.previewHideHandler} /> )
+                                }
+                            </div>
+                    );
         }
 
         createContentElements() {
-            const content = [],
-            images = this.props.content.images;
-            
+            return this.props.content.images.map((el) => {
+                const { id, miniature: { src }, alt, style } = el;
 
-            for (let i = 0; i < images.length; i++) {
-                const { id, miniature: { src }, alt, style } = images[i];
-
-                    // if (i === this.props.content.indexOfLastShowedImage) {
-                    //     break;
-                    // }
-
-                    content.push(
-                        <img className='image' key={id} src={src} alt={alt} 
-                                style={style} 
-                                onClick={(e) => {this.previewShowHandler(images[i], e)}}/>
-                    )
-            } 
-
-            return content;
+                 return (
+                            <img className='image' key={id} src={src} alt={alt} 
+                                 style={style} 
+                                 onClick={(e) => {this.previewShowHandler(el, e)}}/>
+                        );
+            });
         }
 
         fetch() {
@@ -81,13 +79,14 @@ export const Content = connect(fromStateToProps)(
         }
 
         previewShowHandler(element, e) {
-            document.documentElement.style.overflow = 'hidden';
-            this.setState({preview: true});
+            document.body.style.overflow = 'hidden';
             this.previewIndex = this.props.content.images.indexOf(element);
+            this.setState({preview: true});
         }
 
         previewHideHandler() {
             this.setState({preview:false});
+            setTimeout(() => {this.resizeHandle();}, 0);
         }
 
         componentDidMount() {
