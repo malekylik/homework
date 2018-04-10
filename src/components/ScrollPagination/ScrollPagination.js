@@ -59,7 +59,6 @@ export class ScrollPagination extends Component {
 
         componentDidMount() {
             document.addEventListener('scroll', this.scrollHandler, {passive: true});
-            
             this.fetch();  
         }
 

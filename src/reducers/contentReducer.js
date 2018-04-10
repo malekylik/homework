@@ -1,4 +1,4 @@
-import { imageInsertingHelper } from '../index';
+import { imageInsertingHelper } from './mainReducer';
 
 function nextContentHelper(nextContent) {
     return nextContent.map((e) => {

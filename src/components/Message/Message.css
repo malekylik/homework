@@ -8,7 +8,7 @@
 
 .Message__Content {
     margin: auto;
-    width: 45%;
+    min-width: 45%;
     min-height: 50%;
     border: 1px solid #ccc;
     border-radius: 5px;

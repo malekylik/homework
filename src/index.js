@@ -5,12 +5,10 @@ import { Provider } from 'react-redux'
 import './index.css';
 
 import { Content } from './components/Content/Content';
-import { ImageInsertingHelper } from './ImageInsertingHelper';
+import { imageInsertingHelper } from './reducers/mainReducer';
 import { mainReducer } from './reducers/mainReducer';
 
 import './components/Preview/Preview.css';
-
-export const imageInsertingHelper = new ImageInsertingHelper(200, 5);
 
 function middleware({dispatch, getState}) {
     return next => action => {

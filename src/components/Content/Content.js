@@ -32,8 +32,6 @@ export const Content = connect(fromStateToProps)(
             this.previewHideHandler = this.previewHideHandler.bind(this);
             this.resizeHandle = this.resizeHandle.bind(this);
             this.fetch = this.fetch.bind(this);
-
-            this.props.dispatch(updatePagination({limit: this.props.imageInsertingHelper.calculatePaginationLimit()}));
         }
 
 

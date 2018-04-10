@@ -1,8 +1,10 @@
+import { imageInsertingHelper } from './mainReducer';
+
 export function paginationReducer(pagination, action) {
 
     if (pagination === undefined) {
         return {
-            limit: 15,
+            limit: imageInsertingHelper.calculatePaginationLimit(),
             next: '',
             error: false
         }
