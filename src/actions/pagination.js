@@ -1,6 +1,6 @@
-export function updatePagination(pagination) {
-    return {
-        type: 'UPDATE_PAGINATION',
-        pagination
-    };
+export default function updatePagination(pagination) {
+  return {
+    type: 'UPDATE_PAGINATION',
+    pagination,
+  };
 }

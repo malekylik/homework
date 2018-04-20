@@ -1,49 +1,32 @@
-import { appendContent } from '../actions/content';
-import { updatePagination } from '../actions/pagination';
+import appendContent from '../actions/content';
+import updatePagination from '../actions/pagination';
 
-let count = 0;
+export default function fetchNext(pagination) {
+  return async function fetchNextAction(dispatch) {
+    try {
+      if (pagination.error) {
+        dispatch({
+          type: 'LOAD_ERROR',
+          error: false,
+        });
+      }
 
-export function fetchNext(pagination) {
-    return async function (dispatch, getState) {
-        // dispatch({
-        //     type: 'FEED_LOADING',
-        //     loading: true
-        // });
+      const response = await fetch(`/api/recent/${pagination.next}?limit=${pagination.limit}&format=json`, { credentials: 'same-origin' });
 
-        try {
-            // Loading
+      const json = await response.json();
+      const next = (json.links.next && json.links.next.match(/updated.+\//)[0]) || '';
 
-            if (pagination.error) {
-                dispatch({
-                    type: 'LOAD_ERROR',
-                    error: false
-                });
-            }
+      dispatch(updatePagination({ next }));
+      dispatch(appendContent(json.entries));
 
-            let response = await fetch(`/api/recent/${pagination.next}?limit=${pagination.limit}&format=json`, {credentials: 'same-origin'});
-            console.log(response);
-            let json = await response.json();
-            const next = (json.links.next && json.links.next.match(/updated.+\//)[0]) || '';
-            
-            console.log(next);
-            console.log(json);
+      return !!next;
+    } catch (error) {
+      dispatch({
+        type: 'LOAD_ERROR',
+        error: true,
+      });
 
-            count += json.entries.length;
-
-            console.log('count: ' + count);
-
-
-            dispatch(updatePagination({next}));
-            dispatch(appendContent(json.entries));
-
-            return !!next;
-        } catch (error) {
-            dispatch({
-                type: 'LOAD_ERROR',
-                error: true
-            });
-            
-            return pagination.next;
-        } 
-    };
+      return pagination.next;
+    }
+  };
 }
