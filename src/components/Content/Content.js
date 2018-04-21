@@ -105,10 +105,10 @@ const Content = connect(fromStateToProps)(class Content extends Component {
       <div
         className="content"
         ref={(container) => {
-                            if (container) {
-                                this.props.imageInsertingHelper.setContainerSize(container);
-                            }
-                        }}
+              if (container) {
+                  this.props.imageInsertingHelper.setContainerSize(container);
+              }
+          }}
       >
         <ScrollPagination
           fetchNext={this.fetch}
@@ -118,13 +118,13 @@ const Content = connect(fromStateToProps)(class Content extends Component {
           {content}
         </ScrollPagination>
         {
-                                    this.state.preview &&
-                                    (<Preview
-                                      imageIndex={this.previewIndex}
-                                      images={this.props.content.images}
-                                      onHide={this.previewHideHandler}
-                                    />)
-                                }
+           this.state.preview &&
+           (<Preview
+             imageIndex={this.previewIndex}
+             images={this.props.content.images}
+             onHide={this.previewHideHandler}
+           />)
+        }
       </div>
     );
   }
