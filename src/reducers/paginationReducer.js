@@ -4,7 +4,7 @@ export default function paginationReducer(pagination, action) {
   if (pagination === undefined) {
     return {
       limit: imageInsertingHelper.calculatePaginationLimit(),
-      next: '',
+      next: 0,
       error: false,
     };
   }

@@ -2,39 +2,21 @@ import { imageInsertingHelper } from './mainReducer';
 
 function nextContentHelper(nextContent) {
   return nextContent.map((e) => {
-    const { id, title: alt, img } = e;
-    let orig = {
-      width: -1,
-    };
-
-    let preview = {
-      width: Number.POSITIVE_INFINITY,
-    };
-
+    const { id, title: alt, images: img } = e;
     let miniature = {
       height: Number.POSITIVE_INFINITY,
     };
 
     const { rowHeight } = imageInsertingHelper;
-    const windowWidth = window.innerWidth;
 
     Object.keys(img).forEach((key) => {
       if (Math.abs(rowHeight - img[key].height) < Math.abs(rowHeight - miniature.height)) {
         miniature = img[key];
       }
-
-      if (Math.abs(windowWidth - img[key].width) < Math.abs(windowWidth - preview.width)) {
-        preview = img[key];
-      }
-
-      if (img[key].width > orig.width) {
-        orig = img[key];
-      }
     });
 
-    const { href: naturalSrc, width: naturalWidth, height: naturalHeight } = orig;
-    const { href: previewSrc, width: previewWidth, height: previewHeight } = preview;
-    const { href: ratioSrc } = miniature;
+    const { url: naturalSrc, width: naturalWidth, height: naturalHeight } = img.original;
+    const { url: ratioSrc } = miniature;
     let { width: ratioWidth, height: ratioHeight } = miniature;
 
     ({ ratioWidth, ratioHeight } = imageInsertingHelper.calculateRatio({
@@ -52,18 +34,11 @@ function nextContentHelper(nextContent) {
           height: ratioHeight,
         },
       },
-      preview: {
-        src: previewSrc,
-        size: {
-          width: previewWidth,
-          height: previewHeight,
-        },
-      },
       original: {
         src: naturalSrc,
         size: {
-          width: naturalWidth,
-          height: naturalHeight,
+          width: Number(naturalWidth),
+          height: Number(naturalHeight),
         },
       },
     };

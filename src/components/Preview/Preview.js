@@ -56,7 +56,7 @@ export default class Preview extends Component {
     const top = document.documentElement.scrollTop;
     const { currentImageIndex } = this.state;
     const {
-      id, original: { src: originalSrc }, alt, preview: { src: previewSrc },
+      id, original: { src: originalSrc }, alt,
     } = this.props.images[currentImageIndex];
 
 
@@ -79,7 +79,7 @@ export default class Preview extends Component {
               onLoad={this.loadHandler}
               style={{ display: this.state.loading ? 'none' : 'block' }}
               key={id}
-              src={previewSrc}
+              src={originalSrc}
               alt={alt}
             />
             {this.state.loading && <Spinner />}
