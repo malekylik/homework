@@ -1,9 +1,19 @@
 language: node_js
-node_js: 
-  - "node"
+node_js:
+- node
 cache:
   directories:
   - node_modules
 script:
-  - npm run lint
-  - npm run build
+- npm run lint
+- npm run build
+deploy:
+  provider: heroku
+  api_key:
+  secure: "mbgBJ9KcHoUy7N7SkvsT7HilC/dyfODPD/mYXabx79cGaHxrzkwGrhZNfZ8B57jIfY154Q1Oz0xFN55iNJkeXrGT5vu6PBA2ZY0e9P2o76pdrzCk35KuDtYGEpDjSKbjQbOZK7pZdv8SyCis/WFTZmJGiCvkWFQ1R0DocYWPTop8smpo53q0PurWyIjBZInAfHVAE05Ec+fccJQtW7Nw09Wu0avzJnvfwjqbyZgOmhKC+SodCGZoWiZcY+RTXOrz7FwmgBeoqwG5RVVX/kt/8Y4nHLOnWmu9qcmoM9HaM3cG0Tm4I3bw3diyVYFBG1Iyv0a4xebEmcho0Eoq43cqDieHPzArSqKWYyIgU952khDF30i6pyUpKxm2ZGk0e1/yWie6gLKe2+/8Br+BmJhfJJtLnLRgoygzz52jx/9Sc64GJEC/qNk4Sal8H2OyFhycuDVBC2XejV/AIeUll6SElLxqyE+TV0Zw3ggt7HpWWnlYnF9p0/S8noe2wFKCASpIO23UHo5hvnuJ5cGf1Kub0eON8jQY083X64vSUtglOM6oDOe2Fh3xf+y2IkXJ5X1qq174RtkUZdGYag/FdU9xuHr7rrguxkICrCth9s50M5tFaJw0CEqz7p3SmmqmAwJDtr8GraXeEu4x2S/+Tny5Lf6OXusn9WL55T4GNwETMak="
+  app: yandex-image-gallery
+  on:
+    repo: malekylik/homework
+env:
+  global:
+    secure: udL0NUQnX+xZqWSiR4cgKf4o5y2nlO2gCE9oSx1EDxKSNq0Q45Wo1FpZ2TBvnLKXUWA4bpjvByNxC2rTyMp2tXBPpYzVsOU3/XQ/7N7tVYQeidrEC0re0sdVlwguCGChl6vtGgjqn2DU8Rig0/1H0OeWRcKB4LgOLLksxDTmlyAuDid6CdX2eGhUIXl3XjISQJb9XCjSQ9JuCzMYsd1hopmKtARSfOcvpFtMUn0Yvh+c586ZSZw1XeKDeqgQqfGbzALgg5BxKoJOtseyg1cNGeCVRlXyi/iC+wCxQ/koF2iEfveueoNuHJz7PHmUNMn9lHMh3VN8UoJoerJiCCUXYAsphqUUrTbiz/3W3ZQnR4CTntk0G8uo6CrQv+1XIftZmEplhhb8qn1DfMYBlpItwiV/xBrA849YzxUi/XwrKIGjzGYCTWwRFH2QuRkxdVjKZotgX2n5PYs81kc8A/YNudZUiSE3aL4lw2GJvPDSJIxwOgdmOJhf+8WnajutRCp1Qon1QALUXSiLG+jFYThkISrIVn+4EQGazl4uUMnXmUg2yGD+z77tbLOO3z7+sAQ87iMaV7OFVZyq1U6f+QGBkR81CoNjSvBgUm5eroceAjg0lUhiDo5sW0WOD33u0zg9TflCpN2YTcdKnsIs8x7a2Lzn9HyR4deNVAxHlSv4alE=

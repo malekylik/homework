@@ -2,6 +2,7 @@
 
 import { expect } from 'chai';
 import contentReducer from './contentReducer';
+import appendContent from '../actions/content';
 
 describe('Reducer::Content', () => {
     it('returns notShowed (empty array), images (empty array) if state is undefined', () => {
