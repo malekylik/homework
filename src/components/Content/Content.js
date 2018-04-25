@@ -42,7 +42,7 @@ const Content = connect(fromStateToProps)(class Content extends Component {
   }
 
   fetch() {
-    return this.props.dispatch(fetchNext(this.props.pagination));
+    return this.props.dispatch(fetchNext(this.props.pagination, this.props.content));
   }
 
   previewShowHandler(element) {
