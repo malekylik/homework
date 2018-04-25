@@ -45,7 +45,7 @@ export default class ImageInsertingHelper {
         rowWidthCalc,
       ));
 
-      averageRowElements = Math.floor(imgsCount / this.rowCount);
+      averageRowElements = Math.ceil(imgsCount / this.rowCount);
 
       this.calculateImgStyle(row, rowWidthCalc, windowWidth, imgs.length - layout.length);
 
