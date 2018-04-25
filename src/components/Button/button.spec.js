@@ -5,7 +5,7 @@ import Adapter from 'enzyme-adapter-react-16';
 import { expect } from 'chai';
 
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 
 import Button from './Button';
 
@@ -39,4 +39,3 @@ describe('<Button />', function() {
     });
   
   });
-  
