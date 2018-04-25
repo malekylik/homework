@@ -5,6 +5,7 @@ import './Content.css';
 
 import Preview from '../Preview/Preview';
 import ScrollPagination from '../ScrollPagination/ScrollPagination';
+import { imageInsertingHelper } from '../../reducers/mainReducer';
 
 import updatePagination from '../../actions/pagination';
 import fetchNext from '../../actions/fetchNext';
@@ -92,7 +93,19 @@ const Content = connect(fromStateToProps)(class Content extends Component {
       this
         .props
         .dispatch(updatePagination(paginationLimit));
-      this.props.dispatch({ type: 'RECALCULATE_CONTENT' });
+
+
+      const nextContent = [...this.props.content.images, ...this.props.content.notShowed];
+      const images = imageInsertingHelper.calculateRows(nextContent, 0);
+      const notShowed = [...nextContent.slice(images.length)];
+
+      this.props.dispatch({
+        type: 'RECALCULATE_CONTENT',
+        content: {
+          notShowed,
+          images,
+        },
+      });
 
       this.resizing = false;
     }

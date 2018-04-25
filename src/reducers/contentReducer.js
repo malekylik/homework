@@ -1,5 +1,3 @@
-import { imageInsertingHelper } from './mainReducer';
-
 export default function contentReducer(content, action) {
   if (content === undefined) {
     return {
@@ -9,18 +7,18 @@ export default function contentReducer(content, action) {
   }
 
   if (action.type === 'RECALCULATE_CONTENT') {
-    const nextContent = [...content.images, ...content.notShowed];
-    const images = imageInsertingHelper.calculateRows(nextContent, 0);
+    const { notShowed, images } = action.content;
     return {
-      notShowed: [...nextContent.slice(images.length)],
+      notShowed,
       images,
     };
   }
 
   if (action.type === 'APPEND_CONTENT') {
+    const { notShowed, images } = action.content;
     return {
-      notShowed: action.notShowed,
-      images: [...(content.images), ...(action.images)],
+      notShowed,
+      images: [...(content.images), ...images],
     };
   }
 

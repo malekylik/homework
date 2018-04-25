@@ -1,7 +1,6 @@
-export default function appendContent(notShowed, images) {
+export default function appendContent(content) {
   return {
     type: 'APPEND_CONTENT',
-    notShowed,
-    images,
+    content,
   };
 }

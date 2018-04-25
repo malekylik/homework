@@ -74,19 +74,12 @@ export default function fetchNext(
 
       const next = offset - json.pagination.count;
 
-      // const nextContent = [...content.notShowed, ...nextContentHelper(action.nextContent)];
-      // const images = imageInsertingHelper.calculateRows(nextContent, content.images.length);
-      // return {
-      //   notShowed: [...nextContent.slice(images.length)],
-      //   images: [...(content.images), ...images],
-      // };
-
       const nextContent = [...prevNotShowed, ...nextContentHelper(json.data)];
       const images = imageInsertingHelper.calculateRows(nextContent, prevImages.length);
       const notShowed = [...nextContent.slice(images.length)];
 
       dispatch(updatePagination({ next }));
-      dispatch(appendContent(notShowed, images));
+      dispatch(appendContent({ notShowed, images }));
 
       return !!json.pagination.count;
     } catch (error) {
