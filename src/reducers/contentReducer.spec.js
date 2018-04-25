@@ -5,7 +5,7 @@ import contentReducer from './contentReducer';
 import appendContent from '../actions/content';
 
 describe('Reducer::Content',function() {
-    it('returns notShowed (empty array), images (empty array) if state is undefined', function() {
+    it('returns object with properties notShowed (empty array), images (empty array) if state is undefined', function() {
         // setup
         const state = undefined;
         const expectedNewState = {
@@ -19,7 +19,7 @@ describe('Reducer::Content',function() {
         // verify
         expect(newState).to.deep.equal(expectedNewState);
     });
-    it('on APPEND_CONTENT returns new state with added images and replaced notShowed', () => {
+    it('on APPEND_CONTENT returns new state with added images and replaced notShowed', function() {
         // setup
         const prevState = {
             notShowed: [{
