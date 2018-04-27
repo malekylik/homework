@@ -17,3 +17,5 @@
   - дедлайн 14 апреля
 - 31 марта [Инфраструктура] Настроить gemini/eslint. Написать тесты на свой код/eslint.
   - дедлайн 28 апреля
+
+[yandex-image-gallery](https://yandex-image-gallery.herokuapp.com/)
