@@ -64,7 +64,7 @@ export default function fetchNext(
 
       let { next: offset } = pagination;
       const { limit } = pagination;
-      const response = await fetch(`https://api.giphy.com/v1/gifs/trending?api_key=${API_KEY}&offset=${offset - limit}&limit=${limit}&rating=R`);
+      const response = await fetch(`https://api.giphy.com/v1/gifs/trending?api_key=${API_KEY}&offset=${Math.min([offset - limit, 0])}&limit=${limit}&rating=R`);
 
       const json = await response.json();
 
